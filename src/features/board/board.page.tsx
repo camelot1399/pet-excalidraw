@@ -16,7 +16,11 @@ export const BoardPage = () => {
   const { canvasRef, canvasRect } = useCanvasRect();
 
   return (
-    <Layout>
+    <Layout
+      onKeyDown={(e) => {
+        console.log("on key down", e.key);
+      }}
+    >
       <Canvas
         ref={canvasRef}
         onClick={(e) => {

@@ -1,8 +1,11 @@
-import React, { FC, PropsWithChildren } from "react";
+import React, { FC, HTMLAttributes, PropsWithChildren } from "react";
 
-const Layout: FC<PropsWithChildren> = ({ children }) => {
+const Layout: FC<PropsWithChildren & HTMLAttributes<HTMLDivElement>> = ({
+  children,
+  ...props
+}) => {
   return (
-    <div className="layout" tabIndex={0}>
+    <div className="layout" tabIndex={0} {...props}>
       {children}
     </div>
   );
