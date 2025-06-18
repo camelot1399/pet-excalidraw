@@ -1,19 +1,93 @@
 import Layout from "@/components/layout";
-import React, { FC, HTMLAttributes, PropsWithChildren, ReactNode } from "react";
+import React, {
+  FC,
+  HTMLAttributes,
+  PropsWithChildren,
+  ReactNode,
+  Ref,
+  RefCallback,
+  useCallback,
+  useState,
+} from "react";
 import { useNodes } from "./nodes";
+import { useBoardViewState } from "./view-state";
+
+type CanvasRect = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
+
+const useCanvasRect = () => {
+  const [canvasRect, setCanvasRect] = useState<CanvasRect>();
+
+  const canvasRef: RefCallback<HTMLDivElement> = useCallback((el) => {
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const { x, y, width, height } = entry.contentRect;
+
+        setCanvasRect({
+          x,
+          y,
+          width,
+          height,
+        });
+      }
+    });
+
+    if (el) {
+      observer.observe(el);
+
+      return () => {
+        observer.disconnect();
+      };
+    }
+
+    return () => {};
+  }, []);
+
+  return {
+    canvasRef,
+    canvasRect,
+  };
+};
 
 export const BoardPage = () => {
   const { nodes, addSticker } = useNodes();
+  const { viewState, goToAddSticker, goToIdle } = useBoardViewState();
+  const { canvasRef } = useCanvasRect();
 
   return (
     <Layout>
-      <Canvas>
+      <Canvas
+        ref={canvasRef}
+        onClick={(e) => {
+          if (viewState.type === "add-sticker") {
+            addSticker({
+              text: "default",
+              x: e.clientX,
+              y: e.clientY,
+            });
+            goToIdle();
+          }
+        }}
+      >
         {nodes.map((node) => (
           <Sticker key={node.id} x={node.x} y={node.y} text={node.text} />
         ))}
       </Canvas>
       <Actions>
-        <ActionButton isActive={false} onClick={() => addSticker()}>
+        <ActionButton
+          isActive={viewState.type === "add-sticker"}
+          onClick={() => {
+            if (viewState.type === "add-sticker") {
+              goToIdle();
+            } else {
+              goToAddSticker();
+            }
+          }}
+        >
           add sticker
         </ActionButton>
 
@@ -25,17 +99,16 @@ export const BoardPage = () => {
   );
 };
 
-interface Canvas {
-  children: ReactNode;
-}
 const Canvas = ({
   children,
+  ref,
   ...props
 }: {
   children: ReactNode;
+  ref: Ref<HTMLDivElement>;
 } & HTMLAttributes<HTMLDivElement>) => {
   return (
-    <div {...props} className="canvas">
+    <div ref={ref} {...props} className="canvas">
       {children}
     </div>
   );

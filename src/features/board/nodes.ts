@@ -12,6 +12,12 @@ type StickerNode = NodeBase & {
   text: string;
 };
 
+type AddedSticker = {
+  text: string;
+  x: number;
+  y: number;
+};
+
 export const useNodes = () => {
   const [nodes, setNodes] = useState<StickerNode[]>([
     {
@@ -30,15 +36,15 @@ export const useNodes = () => {
     },
   ]);
 
-  const addSticker = (): void => {
+  const addSticker = ({ text, x, y }: AddedSticker): void => {
     setNodes([
       ...nodes,
       {
         id: crypto.randomUUID(),
         type: "sticker",
-        x: 400,
-        y: 500,
-        text: "hello " + crypto.randomUUID(),
+        x,
+        y,
+        text,
       },
     ]);
   };
