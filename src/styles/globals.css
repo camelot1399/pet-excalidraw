@@ -40,3 +40,47 @@ a {
     color-scheme: dark;
   }
 }
+
+.layout {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+}
+
+.canvas {
+  border: 1px solid green;
+  position: absolute;
+  inset: 0;
+}
+
+.sticker {
+  width: 100px;
+  height: 100px;
+  background-color: yellow;
+  position: absolute;
+}
+
+.actions {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  border: 1px solid blue;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.button {
+  /* border: 1px solid red; */
+  background: #ececec;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  &:hover {
+    background: #a8c097;
+  }
+}
+
+.button__active {
+  background: green;
+}
