@@ -25,7 +25,8 @@ const useCanvasRect = () => {
   const canvasRef: RefCallback<HTMLDivElement> = useCallback((el) => {
     const observer = new ResizeObserver((entries) => {
       for (const entry of entries) {
-        const { x, y, width, height } = entry.contentRect;
+        const { width, height } = entry.contentRect;
+        const { x, y } = entry.target.getBoundingClientRect();
 
         setCanvasRect({
           x,
@@ -43,8 +44,6 @@ const useCanvasRect = () => {
         observer.disconnect();
       };
     }
-
-    return () => {};
   }, []);
 
   return {
@@ -56,18 +55,18 @@ const useCanvasRect = () => {
 export const BoardPage = () => {
   const { nodes, addSticker } = useNodes();
   const { viewState, goToAddSticker, goToIdle } = useBoardViewState();
-  const { canvasRef } = useCanvasRect();
+  const { canvasRef, canvasRect } = useCanvasRect();
 
   return (
     <Layout>
       <Canvas
         ref={canvasRef}
         onClick={(e) => {
-          if (viewState.type === "add-sticker") {
+          if (viewState.type === "add-sticker" && canvasRect) {
             addSticker({
               text: "default",
-              x: e.clientX,
-              y: e.clientY,
+              x: e.clientX - canvasRect.x,
+              y: e.clientY - canvasRect?.y,
             });
             goToIdle();
           }

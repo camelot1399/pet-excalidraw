@@ -11,6 +11,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
+        <div style={{ height: "50px" }}>header</div>
         <BoardPage />
       </div>
     </>
