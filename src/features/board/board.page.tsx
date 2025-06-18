@@ -18,7 +18,13 @@ export const BoardPage = () => {
   return (
     <Layout
       onKeyDown={(e) => {
-        console.log("on key down", e.key);
+        if (viewState.type === "add-sticker" && e.key === "Escape") {
+          goToIdle();
+        }
+
+        if (viewState.type === "idle" && e.key === "s") {
+          goToAddSticker();
+        }
       }}
     >
       <Canvas
