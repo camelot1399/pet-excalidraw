@@ -7,16 +7,19 @@ import React, {
   Ref,
 } from "react";
 import { useNodes } from "./nodes";
-import { useBoardViewState } from "./view-state";
+import { useViewModel } from "./view-model";
 import { useCanvasRect } from "./use-canvas-rect";
+import { useLayoutFocus } from "./use-layout-focus";
 
 export const BoardPage = () => {
   const { nodes, addSticker } = useNodes();
-  const { viewState, goToAddSticker, goToIdle } = useBoardViewState();
+  const { viewState, goToAddSticker, goToIdle } = useViewModel();
   const { canvasRef, canvasRect } = useCanvasRect();
+  const focusLayoutRef = useLayoutFocus();
 
   return (
     <Layout
+      ref={focusLayoutRef}
       onKeyDown={(e) => {
         if (viewState.type === "add-sticker" && e.key === "Escape") {
           goToIdle();

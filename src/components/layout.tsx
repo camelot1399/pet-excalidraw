@@ -1,11 +1,15 @@
-import React, { FC, HTMLAttributes, PropsWithChildren } from "react";
+import React, { HTMLAttributes, ReactNode, Ref } from "react";
 
-const Layout: FC<PropsWithChildren & HTMLAttributes<HTMLDivElement>> = ({
+const Layout = ({
   children,
+  ref,
   ...props
-}) => {
+}: {
+  children: ReactNode;
+  ref: Ref<HTMLDivElement>;
+} & HTMLAttributes<HTMLDivElement>) => {
   return (
-    <div className="layout" tabIndex={0} {...props}>
+    <div ref={ref} className="layout" tabIndex={0} {...props}>
       {children}
     </div>
   );
