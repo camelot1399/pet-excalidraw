@@ -59,6 +59,9 @@ a {
   background-color: yellow;
   position: absolute;
 }
+.sticker__selected {
+  border: 1px solid green;
+}
 
 .actions {
   position: absolute;

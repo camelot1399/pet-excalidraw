@@ -13,7 +13,7 @@ import { useLayoutFocus } from "./use-layout-focus";
 
 export const BoardPage = () => {
   const { nodes, addSticker } = useNodes();
-  const { viewState, goToAddSticker, goToIdle } = useViewModel();
+  const viewModel = useViewModel();
   const { canvasRef, canvasRect } = useCanvasRect();
   const focusLayoutRef = useLayoutFocus();
 
@@ -21,40 +21,58 @@ export const BoardPage = () => {
     <Layout
       ref={focusLayoutRef}
       onKeyDown={(e) => {
-        if (viewState.type === "add-sticker" && e.key === "Escape") {
-          goToIdle();
+        if (viewModel.viewState.type === "add-sticker" && e.key === "Escape") {
+          viewModel.goToIdle();
         }
 
-        if (viewState.type === "idle" && e.key === "s") {
-          goToAddSticker();
+        if (viewModel.viewState.type === "idle" && e.key === "s") {
+          viewModel.goToAddSticker();
         }
       }}
     >
       <Canvas
         ref={canvasRef}
         onClick={(e) => {
-          if (viewState.type === "add-sticker" && canvasRect) {
+          if (viewModel.viewState.type === "add-sticker" && canvasRect) {
             addSticker({
               text: "default",
               x: e.clientX - canvasRect.x,
               y: e.clientY - canvasRect?.y,
             });
-            goToIdle();
+            viewModel.goToIdle();
           }
         }}
       >
         {nodes.map((node) => (
-          <Sticker key={node.id} x={node.x} y={node.y} text={node.text} />
+          <Sticker
+            key={node.id}
+            x={node.x}
+            y={node.y}
+            text={node.text}
+            onClick={(e) => {
+              if (viewModel.viewState.type === "idle") {
+                if (e.ctrlKey || e.shiftKey) {
+                  viewModel.selection([node.id], "toggle");
+                } else {
+                  viewModel.selection([node.id], "replace");
+                }
+              }
+            }}
+            selected={
+              viewModel.viewState.type === "idle" &&
+              viewModel.viewState.selectedIds.includes(node.id)
+            }
+          />
         ))}
       </Canvas>
       <Actions>
         <ActionButton
-          isActive={viewState.type === "add-sticker"}
+          isActive={viewModel.viewState.type === "add-sticker"}
           onClick={() => {
-            if (viewState.type === "add-sticker") {
-              goToIdle();
+            if (viewModel.viewState.type === "add-sticker") {
+              viewModel.goToIdle();
             } else {
-              goToAddSticker();
+              viewModel.goToAddSticker();
             }
           }}
         >
@@ -88,13 +106,19 @@ interface Sticker {
   x: number;
   y: number;
   text: string;
+  selected: boolean;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const Sticker: FC<Sticker> = ({ x, y, text }) => {
+const Sticker: FC<Sticker> = ({ x, y, text, selected, onClick }) => {
   return (
-    <div className="sticker" style={{ transform: `translate(${x}px, ${y}px)` }}>
+    <button
+      className={["sticker", selected ? "sticker__selected" : ""].join(" ")}
+      style={{ transform: `translate(${x}px, ${y}px)` }}
+      onClick={onClick}
+    >
       {text}
-    </div>
+    </button>
   );
 };
 
