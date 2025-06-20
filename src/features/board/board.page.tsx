@@ -28,6 +28,12 @@ type ViewModel = {
   canvas?: {
     onClick: (e: React.MouseEvent<HTMLDivElement>) => void;
   };
+  actions?: {
+    addSticker?: {
+      onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+      isActive: boolean;
+    };
+  };
 };
 
 export const BoardPage = () => {
@@ -63,6 +69,14 @@ export const BoardPage = () => {
             viewModelLast.goToIdle();
           },
         },
+        actions: {
+          addSticker: {
+            isActive: true,
+            onClick: () => {
+              viewModelLast.goToIdle();
+            },
+          },
+        },
       };
       break;
     case "idle": {
@@ -84,6 +98,14 @@ export const BoardPage = () => {
             if (e.key === "s") {
               viewModelLast.goToAddSticker();
             }
+          },
+        },
+        actions: {
+          addSticker: {
+            isActive: false,
+            onClick: () => {
+              viewModelLast.goToAddSticker();
+            },
           },
         },
       };
@@ -109,14 +131,8 @@ export const BoardPage = () => {
       </Canvas>
       <Actions>
         <ActionButton
-          isActive={viewModelLast.viewState.type === "add-sticker"}
-          onClick={() => {
-            if (viewModelLast.viewState.type === "add-sticker") {
-              viewModelLast.goToIdle();
-            } else {
-              viewModelLast.goToAddSticker();
-            }
-          }}
+          isActive={viewModel.actions?.addSticker?.isActive}
+          onClick={viewModel.actions?.addSticker?.onClick}
         >
           add sticker
         </ActionButton>
@@ -174,8 +190,8 @@ const ActionButton = ({
   onClick,
 }: {
   children: ReactNode;
-  isActive: boolean;
-  onClick: () => void;
+  isActive?: boolean;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }) => {
   return (
     <button
