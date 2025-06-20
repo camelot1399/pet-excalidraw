@@ -6,7 +6,7 @@ type AddStickerViewState = {
 
 type IdleViewState = {
   type: "idle";
-  selectedIds: string[];
+  selectedIds: Set<string>;
 };
 
 type ViewState = AddStickerViewState | IdleViewState;
@@ -14,11 +14,11 @@ type ViewState = AddStickerViewState | IdleViewState;
 export const useViewModel = () => {
   const [viewState, setViewState] = useState<ViewState>({
     type: "idle",
-    selectedIds: [],
+    selectedIds: new Set(),
   });
 
   const goToIdle = () => {
-    setViewState({ type: "idle", selectedIds: [] });
+    setViewState({ type: "idle", selectedIds: new Set() });
   };
 
   const goToAddSticker = () => {
@@ -54,14 +54,14 @@ const selectItems = (
   if (modif === "replace") {
     return {
       ...viewState,
-      selectedIds: ids,
+      selectedIds: new Set(ids),
     };
   }
 
   if (modif === "add") {
     return {
       ...viewState,
-      selectedIds: Array.from(new Set([...viewState.selectedIds, ...ids])),
+      selectedIds: new Set([...viewState.selectedIds, ...ids]),
     };
   }
 
