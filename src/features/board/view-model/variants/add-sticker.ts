@@ -1,11 +1,13 @@
 // import { AddStickerViewState } from "../../model/view-state";
-import { UseViewModelParams, ViewModel } from "../use-view-model";
+
+import { ViewModelParams } from "../use-view-model-params";
+import { ViewModel } from "../view-model-type";
 
 export const useAddStickerViewModel = ({
   nodesModel,
   viewStateModel,
   canvasRect,
-}: UseViewModelParams) => {
+}: ViewModelParams) => {
   return (): ViewModel => ({
     nodes: nodesModel.nodes,
     layout: {

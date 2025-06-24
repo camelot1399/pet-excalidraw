@@ -1,10 +1,9 @@
-import { NodesModel } from "../model/nodes";
-import { CanvasRectReturn } from "../hooks/use-canvas-rect";
-import { ViewStateModelReturn } from "../model/view-state";
 import { useIdleViewModel } from "./variants/idle";
 import { useAddStickerViewModel } from "./variants/add-sticker";
+import { ViewModel } from "./view-model-type";
+import { ViewModelParams } from "./use-view-model-params";
 
-type ViewModelNode = {
+export type ViewModelNode = {
   id: string;
   x: number;
   y: number;
@@ -13,29 +12,7 @@ type ViewModelNode = {
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
-export type ViewModel = {
-  nodes: ViewModelNode[];
-  layout?: {
-    onKeyDown?: (e: React.KeyboardEvent<HTMLDivElement>) => void;
-  };
-  canvas?: {
-    onClick: (e: React.MouseEvent<HTMLDivElement>) => void;
-  };
-  actions?: {
-    addSticker?: {
-      onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-      isActive: boolean;
-    };
-  };
-};
-
-export type UseViewModelParams = {
-  viewStateModel: ViewStateModelReturn;
-  nodesModel: NodesModel;
-  canvasRect: CanvasRectReturn | undefined;
-};
-
-export const useViewModel = (params: UseViewModelParams) => {
+export const useViewModel = (params: ViewModelParams) => {
   const addStickerViewModel = useAddStickerViewModel(params);
   const idleViewModel = useIdleViewModel(params);
 
