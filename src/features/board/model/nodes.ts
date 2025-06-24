@@ -54,3 +54,5 @@ export const useNodes = () => {
     addSticker,
   };
 };
+
+export type NodesModel = ReturnType<typeof useNodes>;

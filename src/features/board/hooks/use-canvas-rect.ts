@@ -39,3 +39,5 @@ export const useCanvasRect = () => {
     canvasRect,
   };
 };
+
+export type CanvasRectReturn = ReturnType<typeof useCanvasRect>;
