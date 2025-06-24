@@ -10,11 +10,11 @@ import { useNodes } from "./model/nodes";
 import { useCanvasRect } from "./hooks/use-canvas-rect";
 import { useLayoutFocus } from "./hooks/use-layout-focus";
 import { useViewModel } from "./view-model/use-view-model";
-import { useViewStateModel } from "./model/view-state";
+import { useViewState } from "./model/view-state";
 
 export const BoardPage = () => {
   const nodesModel = useNodes();
-  const viewStateModel = useViewStateModel();
+  const viewStateModel = useViewState();
   const { canvasRef, canvasRect } = useCanvasRect();
   const focusLayoutRef = useLayoutFocus();
 

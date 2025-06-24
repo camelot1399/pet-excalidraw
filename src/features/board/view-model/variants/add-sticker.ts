@@ -17,14 +17,14 @@ export const useAddStickerViewModel = ({
     },
     canvas: {
       onClick: (e) => {
-        if (!canvasRect?.canvasRect) {
+        if (!canvasRect) {
           return;
         }
 
         nodesModel.addSticker({
           text: "default",
-          x: e.clientX - canvasRect.canvasRect.x,
-          y: e.clientY - canvasRect.canvasRect?.y,
+          x: e.clientX - canvasRect.x,
+          y: e.clientY - canvasRect?.y,
         });
         viewStateModel.goToIdle();
       },
