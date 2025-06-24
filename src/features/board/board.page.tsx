@@ -12,6 +12,8 @@ import { useLayoutFocus } from "./hooks/use-layout-focus";
 import { useViewModel } from "./view-model/use-view-model";
 import { useViewState } from "./model/view-state";
 import { useCanvasRect } from "./hooks/use-canvas-rect";
+import { Rect } from "./domain/rect";
+import { useWindowEvents } from "./hooks/use-window-events";
 
 export const BoardPage = () => {
   const nodesModel = useNodes();
@@ -25,9 +27,12 @@ export const BoardPage = () => {
     canvasRect,
   });
 
+  useWindowEvents(viewModel);
+
   return (
-    <Layout ref={focusLayoutRef} onKeyDown={viewModel.layout?.onKeyDown}>
-      <Canvas ref={canvasRef} onClick={viewModel.canvas?.onClick}>
+    <Layout ref={focusLayoutRef} {...viewModel.layout}>
+      <Canvas ref={canvasRef} {...viewModel.canvas}>
+        <Overlay {...viewModel.overlay} />
         {viewModel.nodes.map((node) => (
           <Sticker
             key={node.id}
@@ -39,6 +44,10 @@ export const BoardPage = () => {
           />
         ))}
       </Canvas>
+
+      {viewModel.selectionWindow && (
+        <SelectionWindow {...viewModel.selectionWindow} />
+      )}
       <Actions>
         <ActionButton
           isActive={viewModel.actions?.addSticker?.isActive}
@@ -70,6 +79,10 @@ const Canvas = ({
   );
 };
 
+const Overlay = ({ ...props }: HTMLAttributes<HTMLDivElement>) => {
+  return <div className="overlay" {...props}></div>;
+};
+
 interface Sticker {
   x: number;
   y: number;
@@ -87,6 +100,21 @@ const Sticker: FC<Sticker> = ({ x, y, text, selected, onClick }) => {
     >
       {text}
     </button>
+  );
+};
+
+const SelectionWindow = ({ x, y, width, height }: Rect) => {
+  return (
+    <div
+      className="rect"
+      style={{
+        transform: `translate(${x}px, ${y}px)`,
+        width,
+        height,
+        background: "red",
+        border: "1px solid blue",
+      }}
+    ></div>
   );
 };
 

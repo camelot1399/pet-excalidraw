@@ -47,10 +47,14 @@ a {
   height: 100svh;
 }
 
-.canvas {
-  border: 1px solid green;
+.canvas,
+.overlay {
   position: absolute;
   inset: 0;
+}
+
+.overlay {
+  border: 1px solid green;
 }
 
 .sticker {

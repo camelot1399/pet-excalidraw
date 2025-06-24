@@ -7,6 +7,12 @@ export const useIdleViewModel = ({
   nodesModel,
 }: ViewModelParams) => {
   return (idleState: IdleViewState): ViewModel => ({
+    selectionWindow: {
+      x: 100,
+      y: 100,
+      width: 100,
+      height: 200,
+    },
     nodes: nodesModel.nodes.map((node) => ({
       ...node,
       isSelected: idleState.selectedIds.has(node.id),
@@ -33,5 +39,14 @@ export const useIdleViewModel = ({
         },
       },
     },
+    overlay: {
+      onMouseDown: (e) => {
+        console.log("onM", e);
+      },
+      onMouseMove: (e) => {
+        console.log("mouse move", e);
+      },
+    },
+    window: {},
   });
 };
