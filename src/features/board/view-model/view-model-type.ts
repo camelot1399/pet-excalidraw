@@ -1,4 +1,11 @@
-import { ViewModelNode } from "./use-view-model";
+export type ViewModelNode = {
+  id: string;
+  x: number;
+  y: number;
+  text: string;
+  isSelected?: boolean;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+};
 
 export type ViewModel = {
   nodes: ViewModelNode[];
