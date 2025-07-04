@@ -1,4 +1,5 @@
-import { BoardPage } from "@/features/board/board.page";
+// import { BoardPage } from "@/features/board/board.page";
+import ShopPage from "@/features/shop/shop.page";
 import Head from "next/head";
 
 export default function Home() {
@@ -12,7 +13,8 @@ export default function Home() {
       </Head>
       <div>
         <div style={{ height: "50px" }}>header</div>
-        <BoardPage />
+        {/* <BoardPage /> */}
+        <ShopPage />
       </div>
     </>
   );
