@@ -1,13 +1,7 @@
 import { useState } from "react";
-
-export type AddStickerViewState = {
-  type: "add-sticker";
-};
-
-export type IdleViewState = {
-  type: "idle";
-  selectedIds: Set<string>;
-};
+import { IdleViewState } from "../view-model/variants/idle";
+import { AddStickerViewState } from "../view-model/variants/add-sticker";
+import { selectItems } from "../domain/selection";
 
 type ViewState = AddStickerViewState | IdleViewState;
 
@@ -47,32 +41,3 @@ export const useViewState = () => {
 };
 
 export type ViewStateModelReturn = ReturnType<typeof useViewState>;
-
-const selectItems = (
-  viewState: IdleViewState,
-  ids: string[],
-  modif: "replace" | "add" | "toggle" = "replace"
-) => {
-  if (modif === "replace") {
-    return {
-      ...viewState,
-      selectedIds: new Set(ids),
-    };
-  }
-
-  if (modif === "add") {
-    return {
-      ...viewState,
-      selectedIds: new Set([...viewState.selectedIds, ...ids]),
-    };
-  }
-
-  return viewState;
-
-  // if (modif === 'toggle') {
-  //   return {
-  //     ...viewState,
-  //     selectedIds: Array.from(new Set([...viewState.selectedIds, ...ids]))
-  //   }
-  // }
-};
