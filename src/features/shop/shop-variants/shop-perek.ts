@@ -6,12 +6,10 @@
 //   };
 // };
 
-import { ShopModel } from "../shop.page";
-
-export const getPerekShop = (): (() => ShopModel) => {
-  return () => ({
+export const getPerekShop = () => {
+  return {
     onClick: () => {
       console.log("перекресток");
     },
-  });
+  };
 };

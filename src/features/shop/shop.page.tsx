@@ -20,10 +20,10 @@ const getActiveShopTitle = (name: string) => {
 };
 
 const shopModelMap: Record<NameShop, () => ShopModel> = {
-  value1: getX5Shop(),
+  value1: getX5Shop,
   value2: getDiksiShop,
-  value3: getMagnitShop(),
-  value4: getPerekShop(),
+  value3: getMagnitShop,
+  value4: getPerekShop,
 } satisfies Record<NameShop, () => ShopModel>;
 
 export type ShopModel = {
