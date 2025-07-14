@@ -1,3 +1,7 @@
+import { getStaticFilesPath } from "./staticPath";
+
+const HLS_PATH_TAIL = "js/hls_v1.5.20.js";
+
 export const interceptAppendCHildInject = () => {
   const originalAppendChild = Element.prototype.appendChild;
 
@@ -12,7 +16,7 @@ export const interceptAppendCHildInject = () => {
       child.src.includes("hls.js@")
     ) {
       console.warn("modified hls src");
-      child.src = "https://st.d14.championat.com/js/hls_v1.5.20.js";
+      child.src = `${getStaticFilesPath()}/${HLS_PATH_TAIL}`;
     }
 
     return originalAppendChild.call(this, child) as T;
