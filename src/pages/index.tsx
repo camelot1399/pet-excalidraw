@@ -1,4 +1,5 @@
-import Mediator from "@/features/mediator/mediator";
+// import Mediator from "@/features/mediator/mediator";
+import MediatorWithClass from "@/features/mediator-with-class/mediator-with-class";
 import Head from "next/head";
 
 export default function Home() {
@@ -12,7 +13,9 @@ export default function Home() {
       </Head>
       <div>
         <div style={{ height: "50px" }}>header</div>
-        <Mediator />
+        {/* <Mediator /> */}
+
+        <MediatorWithClass />
       </div>
     </>
   );
