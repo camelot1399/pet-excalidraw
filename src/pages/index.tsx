@@ -1,4 +1,4 @@
-import { BoardPage } from "@/features/board/board.page";
+import Mediator from "@/features/mediator/mediator";
 import Head from "next/head";
 
 export default function Home() {
@@ -12,7 +12,7 @@ export default function Home() {
       </Head>
       <div>
         <div style={{ height: "50px" }}>header</div>
-        <BoardPage />
+        <Mediator />
       </div>
     </>
   );
