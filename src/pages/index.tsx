@@ -1,5 +1,5 @@
 // import { BoardPage } from "@/features/board/board.page";
-import ShopPage from "@/features/shop/shop.page";
+import Optimization from "@/components/optiomization";
 import Head from "next/head";
 
 export default function Home() {
@@ -14,7 +14,7 @@ export default function Home() {
       <div>
         <div style={{ height: "50px" }}>header</div>
         {/* <BoardPage /> */}
-        <ShopPage />
+        <Optimization />
       </div>
     </>
   );
